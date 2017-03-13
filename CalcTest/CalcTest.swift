@@ -92,18 +92,23 @@ class CalcTest: XCTestCase {
     }
     
     func testEvaluationRandom() throws {
-        for _ in 0..<10 {
-            var n: [Int] = [];
-            var s: [String] = [];
+        let randomSource = GKLinearCongruentialRandomSource(seed: 1)
+        for _ in 0..<0 {
+            var n: [Int] = []
+            var args: [String] = []
             for _ in 0..<4 {
-                let num = Int(arc4random_uniform(1000)+1)
+                let num = randomSource.nextInt(upperBound:1000) + 1
                 n.append(num)
-                s.append(String(num))
+                args.append(String(num))
             }
             let input = "\(n[0]) + \(n[1]) x \(n[2]) - \(n[3])"
             let expected = String(n[0] + n[1] * n[2] - n[3])
-            let result = try calc(s[0], "+", s[1], "x", s[2], "-", s[3])
+            let result = try calc(args[0], "+", args[1], "x", args[2], "-", args[3])
             XCTAssertEqual(result, expected, input)
         }
     }
 }
+
+
+
+

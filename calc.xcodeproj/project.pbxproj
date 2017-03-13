@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		050330721E767CEF005AB44A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 050330711E767CEF005AB44A /* GameKit.framework */; };
 		05C4D9521E7616DF00AB9F52 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C4D9511E7616DF00AB9F52 /* main.m */; };
 		05C4D95F1E76182500AB9F52 /* CalcTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C4D95E1E76182500AB9F52 /* CalcTest.swift */; };
 		05C4D9661E76191F00AB9F52 /* calc in Resources */ = {isa = PBXBuildFile; fileRef = 05C4D94E1E7616DF00AB9F52 /* calc */; };
@@ -36,6 +37,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		050330711E767CEF005AB44A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		05C4D94E1E7616DF00AB9F52 /* calc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = calc; sourceTree = BUILT_PRODUCTS_DIR; };
 		05C4D9511E7616DF00AB9F52 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		05C4D95C1E76182500AB9F52 /* CalcTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalcTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,18 +57,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				050330721E767CEF005AB44A /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		050330701E767CEF005AB44A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				050330711E767CEF005AB44A /* GameKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		05C4D9451E7616DE00AB9F52 = {
 			isa = PBXGroup;
 			children = (
 				05C4D9501E7616DF00AB9F52 /* calc */,
 				05C4D95D1E76182500AB9F52 /* CalcTest */,
 				05C4D94F1E7616DF00AB9F52 /* Products */,
+				050330701E767CEF005AB44A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -359,6 +371,7 @@
 				05C4D9571E7616DF00AB9F52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		05C4D9611E76182500AB9F52 /* Build configuration list for PBXNativeTarget "CalcTest" */ = {
 			isa = XCConfigurationList;
@@ -367,6 +380,7 @@
 				05C4D9631E76182500AB9F52 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
