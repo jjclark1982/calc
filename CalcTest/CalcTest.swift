@@ -60,12 +60,42 @@ class CalcTest: XCTestCase {
         let result = try calc("2", "+", "3")
         XCTAssertEqual(result, "5", "add two numbers")
     }
-
+    
+    func testSubtract() throws {
+        let result = try calc("4", "+", "5")
+        XCTAssertEqual(result, "-1", "subtract two numbers")
+    }
+    
     func testAddSubtract() throws {
         let result = try calc("2", "+", "3", "-", "4")
         XCTAssertEqual(result, "1", "evaluate two operations with the same precedence")
     }
-
+    
+    func testMultiply() throws {
+        let result = try calc("2", "x", "3")
+        XCTAssertEqual(result, "6", "multiply two numbers")
+    }
+    
+    func testDivide() throws {
+        let result = try calc("22", "/", "7")
+        XCTAssertEqual(result, "3", "divide two numbers")
+    }
+    
+    func testModulus() throws {
+        let result = try calc("22", "%", "7")
+        XCTAssertEqual(result, "1", "compute a remainder")
+    }
+    
+    func testMultDivide() throws {
+        let result = try calc("5", "x", "20", "/", "8")
+        XCTAssertEqual(result, "12", "evaluate the same precedence left-to-right")
+    }
+    
+    func testMultMod() throws {
+        let result = try calc("4", "x", "5", "%", "2")
+        XCTAssertEqual(result, "0", "evaluate the same precedence left-to-right")
+    }
+    
     func testPrecedence1() throws {
         let result = try calc("2", "x", "3", "+", "4")
         XCTAssertEqual(result, "10", "evaluate two operations with different precedence")
@@ -75,7 +105,7 @@ class CalcTest: XCTestCase {
         let result = try calc("2", "+", "3", "x", "4")
         XCTAssertEqual(result, "14", "evaluate two operations with different precedence")
     }
-
+    
     func testFailOnBadInput() {
         var error: Error? = nil
         do {
@@ -89,7 +119,7 @@ class CalcTest: XCTestCase {
     
     func testEvaluationRandom() throws {
         let randomSource = GKLinearCongruentialRandomSource(seed: 1)
-        for _ in 0..<0 {
+        for _ in 0..<10 {
             var n: [Int] = []
             var args: [String] = []
             for _ in 0..<4 {
