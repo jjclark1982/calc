@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import GameKit
+import GameKit // for deterministic random number generator
 
 func findCalcPath() -> String? {
     let calcBundle = Bundle.allBundles.filter({ (bundle:Bundle) -> Bool in
@@ -21,39 +21,29 @@ enum calcError: Error {
     case exitStatus(Int32)
 }
 
+func calc(_ arguments: String...) throws -> String {
+    let task = Process()
+    let output = Pipe()
+    task.standardOutput = output
+    task.launchPath = calcPath
+    
+    task.arguments = arguments
+    task.launch()
+    task.waitUntilExit()
+    
+    if (task.terminationStatus != 0) {
+        throw calcError.exitStatus(task.terminationStatus)
+    }
+    
+    let data: Data = output.fileHandleForReading.readDataToEndOfFile()
+    let result: String = String(bytes: data, encoding: String.Encoding.utf8)!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    return result
+}
+
 class CalcTest: XCTestCase {
-    override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-        super.setUp()
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func calc(_ arguments: String...) throws -> String {
-        let task = Process()
-        let output = Pipe()
-        task.standardOutput = output
-        task.launchPath = calcPath
-
-        task.arguments = arguments
-        task.launch()
-        task.waitUntilExit()
-        
-        if (task.terminationStatus != 0) {
-            throw calcError.exitStatus(task.terminationStatus)
-        }
-        
-        let data: Data = output.fileHandleForReading.readDataToEndOfFile()
-        let result: String = String(bytes: data, encoding: String.Encoding.utf8)!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        return result
-    }
-
     func testParseInteger() throws {
         let result = try calc("7")
-        XCTAssertEqual(result, "7", "parse an integer")
+        XCTAssertEqual(result, "7", "parse an integer and print to standard out")
     }
     
     func testAdd() throws {
@@ -68,7 +58,7 @@ class CalcTest: XCTestCase {
     
     func testAddSubtract() throws {
         let result = try calc("2", "+", "3", "-", "4")
-        XCTAssertEqual(result, "1", "evaluate two operations with the same precedence")
+        XCTAssertEqual(result, "1", "evaluate commutative operations with the same precedence")
     }
     
     func testMultiply() throws {
@@ -106,15 +96,26 @@ class CalcTest: XCTestCase {
         XCTAssertEqual(result, "14", "evaluate two operations with different precedence")
     }
     
-    func testFailOnBadInput() {
+    func testInvalidInput() {
         var error: Error? = nil
         do {
-            try _ = calc("-", "3", "xyz")
+            try _ = calc("3.1", "-4", "xyz")
         }
         catch let e {
             error = e
         }
-        XCTAssertNotNil(error, "exit with nonzero status on bad input")
+        XCTAssertNotNil(error, "exit with nonzero status on invalid input")
+    }
+
+    func testDivideByZero() {
+        var error: Error? = nil
+        do {
+            try _ = calc("1", "/", "0")
+        }
+        catch let e {
+            error = e
+        }
+        XCTAssertNotNil(error, "exit with nonzero status when dividing by zero")
     }
     
     func testEvaluationRandom() throws {
@@ -134,7 +135,4 @@ class CalcTest: XCTestCase {
         }
     }
 }
-
-
-
 
