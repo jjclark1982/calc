@@ -7,17 +7,13 @@
 //
 
 import XCTest
+import GameKit
 
 func findCalcPath() -> String? {
-    // allBundles is in random order, so we search for the bundle with the resource.
-    // i think the proper way to load a bundle by name is with NSWorkspace.fullPath(forApplication:)
-    for bundle in Bundle.allBundles {
-        let calcPath = bundle.path(forResource: "calc", ofType: nil)
-        if (calcPath != nil) {
-            return calcPath
-        }
-    }
-    return nil
+    let calcBundle = Bundle.allBundles.filter({ (bundle:Bundle) -> Bool in
+        bundle.bundleIdentifier == "UTS.CalcTest"
+    }).first
+    return calcBundle?.path(forResource: "calc", ofType: nil)
 }
 let calcPath = findCalcPath()
 
