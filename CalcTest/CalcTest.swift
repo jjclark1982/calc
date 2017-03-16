@@ -9,130 +9,175 @@
 import XCTest
 import GameKit // for deterministic random number generator
 
-func findCalcPath() -> String? {
-    let calcBundle = Bundle.allBundles.filter({ (bundle:Bundle) -> Bool in
-        bundle.bundleIdentifier == "UTS.CalcTest"
-    }).first
-    return calcBundle?.path(forResource: "calc", ofType: nil)
-}
-let calcPath = findCalcPath()
+let randomSource = GKLinearCongruentialRandomSource(seed: 1)
+
+let calcBundle = Bundle(identifier: "UTS.CalcTest")!
+let calcPath = calcBundle.path(forResource: "calc", ofType: nil)
 
 enum calcError: Error {
     case exitStatus(Int32)
 }
 
-func calc(_ arguments: String...) throws -> String {
-    let task = Process()
-    let output = Pipe()
-    task.standardOutput = output
-    task.launchPath = calcPath
+class calcProcess {
+    var input: String
+    var output: String
+    var status: calcError?
     
-    task.arguments = arguments
-    task.launch()
-    task.waitUntilExit()
-    
-    if (task.terminationStatus != 0) {
-        throw calcError.exitStatus(task.terminationStatus)
+    init(_ args:Any...) {
+        let arguments = args.map { (a:Any) -> String in
+            String(describing:a)
+        }
+        input = arguments.joined(separator: " ")
+        
+        let task = Process()
+        let stdout = Pipe()
+        task.standardOutput = stdout
+        task.launchPath = calcPath
+        task.arguments = arguments
+        task.launch()
+        task.waitUntilExit()
+        
+        if (task.terminationStatus != 0) {
+            status = calcError.exitStatus(task.terminationStatus)
+        }
+
+        let data: Data = stdout.fileHandleForReading.readDataToEndOfFile()
+        output = String(bytes: data, encoding: String.Encoding.utf8)!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }
-    
-    let data: Data = output.fileHandleForReading.readDataToEndOfFile()
-    let result: String = String(bytes: data, encoding: String.Encoding.utf8)!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-    return result
 }
 
 class CalcTest: XCTestCase {
     func testParseInteger() throws {
-        let result = try calc("7")
-        XCTAssertEqual(result, "7", "parse an integer and print to standard out")
+        let n1 = randomSource.nextInt(upperBound:100)
+        let task = calcProcess(n1)
+        XCTAssertEqual(task.output, String(n1), task.input)
+
+        let n2 = -randomSource.nextInt(upperBound:100)
+        let task2 = calcProcess(n2)
+        XCTAssertEqual(task2.output, String(n2), task.input)
     }
-    
+
+    func testInvalidInput() {
+        let task1 = calcProcess("x")
+        XCTAssertNil(task1.status, "exit with nonzero status on invalid input")
+        
+        let task2 = calcProcess("3.1", "-4", "xyz")
+        XCTAssertNil(task2.status, "exit with nonzero status on invalid input")
+    }
+
     func testAdd() throws {
-        let result = try calc("2", "+", "3")
-        XCTAssertEqual(result, "5", "add two numbers")
+        let n1 = randomSource.nextInt(upperBound:200)-100
+        let n2 = randomSource.nextInt(upperBound:200)-100
+        let task = calcProcess(n1, "+", n2)
+        XCTAssertEqual(task.output, String(n1 + n2), task.input)
     }
     
     func testSubtract() throws {
-        let result = try calc("4", "+", "5")
-        XCTAssertEqual(result, "-1", "subtract two numbers")
+        let n1 = randomSource.nextInt(upperBound:100)
+        let n2 = randomSource.nextInt(upperBound:100)
+        let task = calcProcess(n1, "-", n2)
+        XCTAssertEqual(task.output, String(n1 - n2), task.input)
     }
     
     func testAddSubtract() throws {
-        let result = try calc("2", "+", "3", "-", "4")
-        XCTAssertEqual(result, "1", "evaluate commutative operations with the same precedence")
+        let n1 = randomSource.nextInt(upperBound:100)
+        let n2 = randomSource.nextInt(upperBound:100)
+        let n3 = randomSource.nextInt(upperBound:100)
+        let task = calcProcess(n1, "+", n2, "-", n3)
+        XCTAssertEqual(task.output, String(n1 + n2 - n3), task.input)
     }
     
     func testMultiply() throws {
-        let result = try calc("2", "x", "3")
-        XCTAssertEqual(result, "6", "multiply two numbers")
+        let n1 = randomSource.nextInt(upperBound:100)+1
+        let n2 = randomSource.nextInt(upperBound:100)+1
+        let task = calcProcess(n1, "x", n2)
+        XCTAssertEqual(task.output, String(n1 * n2), task.input)
     }
     
     func testDivide() throws {
-        let result = try calc("22", "/", "7")
-        XCTAssertEqual(result, "3", "divide two numbers")
+        let n1 = randomSource.nextInt(upperBound:100) + 20
+        let n2 = randomSource.nextInt(upperBound:20) + 1
+        let task = calcProcess(n1, "/", n2)
+        XCTAssertEqual(task.output, String(n1 / n2), task.input)
     }
     
     func testModulus() throws {
-        let result = try calc("22", "%", "7")
-        XCTAssertEqual(result, "1", "compute a remainder")
+        let n1 = randomSource.nextInt(upperBound:100) + 20
+        let n2 = randomSource.nextInt(upperBound:20) + 1
+        let task = calcProcess(n1, "%", n2)
+        XCTAssertEqual(task.output, String(n1 % n2), task.input)
     }
-    
+
     func testMultDivide() throws {
-        let result = try calc("5", "x", "20", "/", "8")
-        XCTAssertEqual(result, "12", "evaluate the same precedence left-to-right")
+        // verify that same-precedence is evaluated left-to-right
+        let n1 = randomSource.nextInt(upperBound:50) + 5
+        let n2 = randomSource.nextInt(upperBound:50) + 5
+        let n3 = randomSource.nextInt(upperBound:20) + 1
+        let task = calcProcess(n1, "x", n2, "/", n3)
+        XCTAssertEqual(task.output, String(n1 * n2 / n3), task.input)
     }
-    
+
     func testMultMod() throws {
-        let result = try calc("4", "x", "5", "%", "2")
-        XCTAssertEqual(result, "0", "evaluate the same precedence left-to-right")
+        // verify that same-precedence is evaluated left-to-right
+        let n1 = randomSource.nextInt(upperBound:50) + 5
+        let n2 = randomSource.nextInt(upperBound:50) + 5
+        let n3 = randomSource.nextInt(upperBound:20) + 1
+        let task = calcProcess(n1, "x", n2, "%", n3)
+        XCTAssertEqual(task.output, String(n1 * n2 % n3), task.input)
     }
     
+    func testModDiv() throws {
+        // verify that same-precedence is evaluated left-to-right
+        // note: these ops are not the same predence in all languages
+        let n1 = randomSource.nextInt(upperBound:50) + 40
+        let n2 = randomSource.nextInt(upperBound:20) + 20
+        let n3 = randomSource.nextInt(upperBound:20) + 1
+        let task = calcProcess(n1, "%", n2, "/", n3)
+        XCTAssertEqual(task.output, String((n1 % n2) / n3), task.input)
+    }
+
     func testPrecedence1() throws {
-        let result = try calc("2", "x", "3", "+", "4")
-        XCTAssertEqual(result, "10", "evaluate two operations with different precedence")
+        // verify that multiplication is evaluated before addition
+        let n1 = randomSource.nextInt(upperBound:20) + 1
+        let n2 = randomSource.nextInt(upperBound:20) + 1
+        let n3 = randomSource.nextInt(upperBound:100) + 1
+        let task = calcProcess(n1, "x", n2, "+", n3)
+        XCTAssertEqual(task.output, String(n1 * n2 + n3), task.input)
     }
 
     func testPrecedence2() throws {
-        let result = try calc("2", "+", "3", "x", "4")
-        XCTAssertEqual(result, "14", "evaluate two operations with different precedence")
+        // verify that multiplication is evaluated before addition
+        let n1 = randomSource.nextInt(upperBound:100) + 1
+        let n2 = randomSource.nextInt(upperBound:20) + 1
+        let n3 = randomSource.nextInt(upperBound:20) + 1
+        let task = calcProcess(n1, "+", n2, "x", n3)
+        XCTAssertEqual(task.output, String(n1 + n2 * n3), task.input)
     }
     
-    func testInvalidInput() {
-        var error: Error? = nil
-        do {
-            try _ = calc("3.1", "-4", "xyz")
-        }
-        catch let e {
-            error = e
-        }
-        XCTAssertNotNil(error, "exit with nonzero status on invalid input")
-    }
-
     func testDivideByZero() {
-        var error: Error? = nil
-        do {
-            try _ = calc("1", "/", "0")
-        }
-        catch let e {
-            error = e
-        }
-        XCTAssertNotNil(error, "exit with nonzero status when dividing by zero")
-    }
-    
-    func testEvaluationRandom() throws {
-        let randomSource = GKLinearCongruentialRandomSource(seed: 1)
-        for _ in 0..<10 {
-            var n: [Int] = []
-            var args: [String] = []
-            for _ in 0..<4 {
-                let num = randomSource.nextInt(upperBound:1000) + 1
-                n.append(num)
-                args.append(String(num))
-            }
-            let input = "\(n[0]) + \(n[1]) x \(n[2]) - \(n[3])"
-            let expected = String(n[0] + n[1] * n[2] - n[3])
-            let result = try calc(args[0], "+", args[1], "x", args[2], "-", args[3])
-            XCTAssertEqual(result, expected, input)
-        }
+        let n1 = randomSource.nextInt(upperBound:100) + 1
+        let task1 = calcProcess(n1, "/", 0)
+        XCTAssertNil(task1.status, "exit with nonzero status when dividing by zero")
+        
+        let n2 = randomSource.nextInt(upperBound:100) + 1
+        let task2 = calcProcess(n2, "%", 0)
+        XCTAssertNil(task2.status, "exit with nonzero status when dividing by zero")
     }
 }
 
+class OptionalTests: XCTestCase {
+    func testHandleFloatingPointValues() throws {
+        let task = calcProcess("0.5", "+", "0.5")
+        XCTAssertEqual(task.output, "1.0", "handle floating-point values")
+    }
+
+    func testHandleDecimalValues() throws {
+        let task = calcProcess("0.1", "+", "0.2")
+        XCTAssertEqual(task.output, "0.3", "handle decimal values")
+    }
+
+    func testHandleRationalValues() throws {
+        let task = calcProcess("1", "/", "3", "+", "2", "/", "3")
+        XCTAssertEqual(task.output, "1", "handle rational values")
+    }
+}
