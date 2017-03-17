@@ -59,10 +59,10 @@ class CalcTest: XCTestCase {
 
     func testInvalidInput() {
         let task1 = calcProcess("x")
-        XCTAssertNil(task1.status, "exit with nonzero status on invalid input")
+        XCTAssertNotNil(task1.status, "exit with nonzero status on invalid input: \(task1.input)")
         
         let task2 = calcProcess("3.1", "-4", "xyz")
-        XCTAssertNil(task2.status, "exit with nonzero status on invalid input")
+        XCTAssertNotNil(task2.status, "exit with nonzero status on invalid input: \(task2.input)")
     }
 
     func testAdd() throws {
@@ -157,27 +157,27 @@ class CalcTest: XCTestCase {
     func testDivideByZero() {
         let n1 = randomSource.nextInt(upperBound:100) + 1
         let task1 = calcProcess(n1, "/", 0)
-        XCTAssertNil(task1.status, "exit with nonzero status when dividing by zero")
+        XCTAssertNotNil(task1.status, "exit with nonzero status when dividing by zero: \(task1.input)")
         
         let n2 = randomSource.nextInt(upperBound:100) + 1
         let task2 = calcProcess(n2, "%", 0)
-        XCTAssertNil(task2.status, "exit with nonzero status when dividing by zero")
+        XCTAssertNotNil(task2.status, "exit with nonzero status when dividing by zero: \(task2.input)")
     }
 }
 
 class OptionalTests: XCTestCase {
     func testHandleFloatingPointValues() throws {
         let task = calcProcess("0.5", "+", "0.5")
-        XCTAssertEqual(task.output, "1.0", "handle floating-point values")
+        XCTAssertEqual(task.output, "1.0", "handle floating-point values: \(task.input)")
     }
 
     func testHandleDecimalValues() throws {
         let task = calcProcess("0.1", "+", "0.2")
-        XCTAssertEqual(task.output, "0.3", "handle decimal values")
+        XCTAssertEqual(task.output, "0.3", "handle decimal values: \(task.input)")
     }
 
     func testHandleRationalValues() throws {
         let task = calcProcess("1", "/", "3", "+", "2", "/", "3")
-        XCTAssertEqual(task.output, "1", "handle rational values")
+        XCTAssertEqual(task.output, "1", "handle rational values: \(task.input)")
     }
 }
