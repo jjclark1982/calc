@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		050330721E767CEF005AB44A /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 050330711E767CEF005AB44A /* GameKit.framework */; };
+		056B8A9A1E87AE19008AE4E2 /* calc in Resources */ = {isa = PBXBuildFile; fileRef = 05C4D94E1E7616DF00AB9F52 /* calc */; };
 		05C4D9521E7616DF00AB9F52 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C4D9511E7616DF00AB9F52 /* main.m */; };
 		05C4D95F1E76182500AB9F52 /* CalcTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05C4D95E1E76182500AB9F52 /* CalcTest.swift */; };
-		05C4D9661E76191F00AB9F52 /* calc in Resources */ = {isa = PBXBuildFile; fileRef = 05C4D94E1E7616DF00AB9F52 /* calc */; };
 		05C4D9671E76229300AB9F52 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 05C4D9511E7616DF00AB9F52 /* main.m */; };
 /* End PBXBuildFile section */
 
@@ -189,7 +189,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05C4D9661E76191F00AB9F52 /* calc in Resources */,
+				056B8A9A1E87AE19008AE4E2 /* calc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

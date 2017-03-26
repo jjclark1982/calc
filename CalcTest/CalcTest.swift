@@ -63,6 +63,9 @@ class CalcTest: XCTestCase {
         
         let task2 = calcProcess("3.1", "-4", "xyz")
         XCTAssertNotNil(task2.status, "exit with nonzero status on invalid input: \(task2.input)")
+
+        let task3 = calcProcess("2", "+", "n")
+        XCTAssertNotNil(task1.status, "exit with nonzero status on invalid input: \(task3.input)")
     }
 
     func testAdd() throws {
@@ -162,6 +165,22 @@ class CalcTest: XCTestCase {
         let n2 = randomSource.nextInt(upperBound:100) + 1
         let task2 = calcProcess(n2, "%", 0)
         XCTAssertNotNil(task2.status, "exit with nonzero status when dividing by zero: \(task2.input)")
+    }
+
+    func testOutOfBounds() {
+        let n1 = randomSource.nextInt(upperBound:100) + 2
+        let task1 = calcProcess(Int.max-1, "+", n1)
+        XCTAssertNotNil(task1.status, "Error on integer overflow: \(task1.input)")
+
+        let n2 = randomSource.nextInt(upperBound:100) + 2
+        let task2 = calcProcess(Int.min+1, "-", n2)
+        XCTAssertNotNil(task2.status, "Error on integer underflow: \(task2.input)")
+        
+        let task3 = calcProcess("999999999", "x", "99999999999")
+        XCTAssertNotNil(task3.status, "Error on integer overflow: \(task3.input)")
+
+        let task4 = calcProcess("999999999", "x", "-99999999999")
+        XCTAssertNotNil(task4.status, "Error on integer underflow: \(task4.input)")
     }
 }
 
