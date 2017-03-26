@@ -18,12 +18,12 @@ This assignment is worth 25% of the overall mark for this subject.
 
 The purpose of this project is to demonstrate competence in the following skills:
 
-- Program design
-- Array and string manipulation
-- Command line arguments
-- Creating methods and classes in Objective-C
-- Exception handling
-- Program testing
+- [ ] Program design
+- [ ] Array and string manipulation
+- [ ] Command line arguments
+- [ ] Creating methods and classes in Objective-C
+- [ ] Exception handling
+- [ ] Program testing
 
 These tasks reflect all the subject objectives.
 
@@ -92,7 +92,7 @@ Also note that we can use the unary + and – operators. For example
 
     ./calc -5 / +2
     -2
-
+    
     ./calc +2 - -2
     4
 
@@ -167,8 +167,8 @@ It is expected that marks will be made available one week after the final due da
 
 - Students should be aware that there is no group work within this subject. All work must be individual. However, it is considered acceptable practice to adapt code examples found in the lecture notes, labs and the text book for the assignment. Code adapted from any other source, particularly the Internet and other student assignments, will be considered academic malpractice. The point of the assignment is to demonstrate your understanding of the subject material covered. It's not about being able to find solutions on the Internet.
 
-You should also note that assignment submissions will be checked using software that
-detects similarities between students programs.
+  You should also note that assignment submissions will be checked using software that detects similarities between students programs.
+
 
 - Participants are reminded of the principles laid down in the "Statement of Good Practice and Ethics in Informal Assessment" in the Faculty Handbook. Assignments in this subject should be your own original work. Any collaboration with another participant should be limited to those matters described in the "Acceptable Behaviour" section. Any infringement by a participant will be considered a breach of discipline and will be dealt with in accordance with the Rules and By-Laws the University. The Faculty penalty for proven misconduct of this nature is zero marks for the subject. For more information, see [UTS Policy on Academic integrity, plagiarism and cheating](https://www.uts.edu.au/current-students/feit/study-and-assessment-resources/academic-integrity-plagiarism-and-cheating)
 
