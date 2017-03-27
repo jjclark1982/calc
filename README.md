@@ -14,7 +14,7 @@ Due 20th April 2017 at 2 pm
 
 This assignment is worth 25% of the overall mark for this subject.
 
-### Objectives
+## Objectives
 
 The purpose of this project is to demonstrate competence in the following skills:
 
@@ -29,15 +29,15 @@ These tasks reflect all the subject objectives.
 
 The reference implementation takes about 200 lines of code, including white space (blank lines) comments, etc. As part of your subject workload assessment, it is estimated this project will take 22.5 hours to complete.
 
-### Instructions
+## Instructions
 
-- Download the project template from [https://github.com/jjclark1982/calc](https://github.com/jjclark1982/calc) using the "Clone or Download" button.
+1. Download the project template from [https://github.com/jjclark1982/calc](https://github.com/jjclark1982/calc) using the "Clone or Download" button.
 
-- Implement the specified functionality in the `calc` target.
+2. Implement the specified functionality in the `calc` target.
 
-- Use "Product > Test" to test your functionality.
+3. Use "Product > Test" to test your functionality.
 
-- Upload your submission to [UTS Online](https://online.uts.edu.au/). Compress your Xcode project into a zip file and upload the file to "Assessment Task 1 submission." Please delete the "Build", "DerivedData", and "reference" folders for a smaller zip file size. You may submit as many times as you like until the final due date. The final submission you make is the one that will be marked.
+4. Upload your submission to [UTS Online](https://online.uts.edu.au/). Compress your Xcode project into a zip file and upload the file to "Assessment Task 1 submission." Please delete the "Build", "DerivedData", and "reference" folders for a smaller zip file size. You may submit as many times as you like until the final due date. The final submission you make is the one that will be marked.
 
 ### Specification
 
@@ -118,17 +118,18 @@ Please note that it prints results to standard output and additional messages to
 
 **Max score**: 25 marks
 
-#### Functionality - 16 marks
+#### Functionality: 16 marks
 
 Deduct 1 mark for each failing test in the **CalcTest** suite.
 
-#### Style - 3 marks
+#### Style: 3 marks
 
-Deduct up to 1 mark for bad or inconsistent indentation, whitespace, or braces.  
-Deduct up to 1 mark for bad or misleading comments.  
-Deduct up to 1 mark for unclear symbol naming.
+- Deduct up to 1 mark for bad or inconsistent indentation, whitespace, or braces.  
+- Deduct up to 1 mark for bad or misleading comments.  
+- Deduct up to 1 mark for unclear symbol naming.
 
-#### Design - 6 marks
+
+#### Design: 6 marks
 
 - **Functional separation**: Is the problem broken down into meaningful parts?  
 - **Loose coupling**: Can parts be changed in isolation of each other?  
@@ -153,7 +154,7 @@ It is quite possible that errors or ambiguities may be found in the task specifi
 
 If you discover an error, ambiguity, or bug, you will receive the maximum "Marker's discretion" credit (1 mark). The following rules apply:
 
-1. It must be a report on the currently posted version of the benchmark.
+1. It must be a report on the currently posted version of the material.
 2. It must be reported on the UTS Online discussion board to be accepted.
 3. It must be a genuine bug. By genuine I mean it requires me to amend the material.
 4. If a number of students post a report on the same bug, the first who posted will receive the mark.
@@ -176,11 +177,10 @@ It is expected that marks will be made available one week after the final due da
 
 If you have a question, please contact the instructor as soon as possible. Please do not send email in HTML format or with attachments. They will not be read or opened. Only emails sent in plain text format will be read. Emails without subject lines will be automatically deleted by the junk mail filters I have in place.
 
-If the answer to your questions can be found directly in any of the following
+If the answer to your questions can be found directly in any of the following:
 
 - subject outline
 - task specification
 - UTS Online discussion board
 
 You will be directed to these locations rather than given a direct answer.
-
