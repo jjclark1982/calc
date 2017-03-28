@@ -12,7 +12,7 @@ Individual programming project: Command-line calculator
 
 Due 20th April 2017 at 2 pm  
 
-This assignment is worth 25% of the overall mark for this subject.
+This project is worth 25% of the overall mark for this subject.
 
 ## Objectives
 
@@ -120,14 +120,16 @@ Please note that it prints results to standard output and additional messages to
 
 #### Functionality: 16 marks
 
-Deduct 1 mark for each failing test in the **CalcTest** suite.
+The Xcode project must unzip successfully and compile without errors.
+
+- Deduct 3 marks if there are **any** compiler warnings.
+- Deduct 1 mark for **each** failing test in the `CalcTest` suite.
 
 #### Style: 3 marks
 
 - Deduct up to 1 mark for bad or inconsistent indentation, whitespace, or braces.  
 - Deduct up to 1 mark for bad or misleading comments.  
 - Deduct up to 1 mark for unclear symbol naming.
-
 
 #### Design: 6 marks
 
@@ -142,11 +144,11 @@ Deduct 1 mark for each failing test in the **CalcTest** suite.
 
 Deduct 1 mark per 24 hours late (rounded up). Submissions will not be accepted after the Final Due Date (7 days after the standard due date).
 
-Please note: Regardless of how many times you have submitted your assignment, if your final submission is after the due date it will be considered late and marks will deducted accordingly.
+Please note: Regardless of how many times you have submitted your project, if your final submission is after the due date it will be considered late and marks will deducted accordingly.
 
-An extension will only be granted if there is a fully documented reason which merits it. The documentation must be presented to the Subject Coordinator before the assignment due date. Extensions after the Final Due Date will never be granted under any circumstance. If an extension is granted that means the assignment will be accepted up to the extension date without penalty. If an extension is granted, UTS Online will show the extended due date.
+An extension will only be granted if there is a fully documented reason which merits it. The documentation must be presented to the Subject Coordinator before the due date. Extensions after the Final Due Date will never be granted under any circumstance. If an extension is granted that means submission will be accepted up to the extension date without penalty. If an extension is granted, UTS Online will show the extended due date.
 
-Students may apply for special consideration if they consider that illness or misadventure has adversely affected their performance in the assignment.
+Students may apply for special consideration if they consider that illness or misadventure has adversely affected their performance.
 
 ### Bug reports
 
