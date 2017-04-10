@@ -41,7 +41,7 @@ The reference implementation takes about 200 lines of code, including white spac
 
 ### Specification
 
-You are to prepare a macOS command-line tool that will act as a simple calculator. The calculator will be run from the command line and will only work with integer numbers and the following arithmetic operators: `+` `-` `x` `/` `%`. The `%` operator is the modulus operator, not the percentage.
+You are to prepare a macOS command-line tool that will act as a simple calculator. The calculator will be run from the command line and will only work with integer numbers and the following arithmetic operators: `+` `-` `x` `/` `%`. The `%` operator is the modulus operator, not percentage.
 
 For example, if the program is compiled to `calc`, the following demonstrates how it will work
 
@@ -58,7 +58,7 @@ and ending in a
 
 Hitting the enter key will cause the program to evaluate the arguments and print the result. In this case `1`.
 
-The program must follow the usual laws of arithmetic which says
+The program must follow the usual rules of arithmetic which say:
 
 1. The `x` `/` and `%` operators must all be evaluated before the `+` and `–` operators.
 2. Operators must be evaluated from left to right.
@@ -75,20 +75,20 @@ which results in
 
 > 8
 
-If we did not use Rule 1 then 2 + 4 x 3 – 6 would become 6 x 3 – 6 and then 18 – 6 and finally 12. This is an incorrect result.
+If we did not use Rule 1 then `2 + 4 x 3 – 6` would become `6 x 3 – 6` and then `18 – 6` and finally `12`. This is an incorrect result.
 
 If we do not use Rule 2 then the following illustrates how it can go wrong
 
 > 4 x 5 % 2
 
-Going from left to right we evaluate the x first, which reduces the expression to 20 % 2 which becomes 0. If we evaluated the % first then the expression would reduce to 4 x 1 which becomes 4. This is an incorrect result.
+Going from left to right we evaluate the `x` first, which reduces the expression to `20 % 2` which becomes `0`. If we evaluated the `%` first then the expression would reduce to `4 x 1` which becomes `4`. This is an incorrect result.
 
 Remember, we are using integer mathematics when doing our calculations, so we get integer results when doing division. For example
 
     ./calc 20 / 3
     6
 
-Also note that we can use the unary + and – operators. For example
+Also note that we can use the unary `+` and `–` operators. For example
 
     ./calc -5 / +2
     -2
@@ -96,15 +96,15 @@ Also note that we can use the unary + and – operators. For example
     ./calc +2 - -2
     4
 
-Your program must also check to make sure the command line arguments are valid. If not your program must generate an appropriate error message and then terminate.
+Your program must also check to make sure the command line arguments are valid. If not your program must generate an appropriate error message and then terminate with nonzero exit status.
 
-You should also check for division by zero errors and print an appropriate error message.
+You should also check for division by zero errors and numeric out-of-bounds errors.
 
-As part of your program design, it is expected you will create a `calculator` class that will handle the evaluation of the command line arguments.
+As part of your program design, it is expected you will create classes to model the problem domain.
 
 ### Program Hints
 
-1. Getting your program to solve expressions that only use the + and – operators is fairly easy. I would suggest you get your program working at this level before attempting to get it to work with the other operators.
+1. Getting your program to solve expressions that only use the `+` and `–` operators is fairly easy. I would suggest you get your program working at this level before attempting to get it to work with the other operators.
 
 2. While this problem can be solved using iteration, it is easier to solve using recursion.
 
