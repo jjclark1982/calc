@@ -9,7 +9,7 @@
 import XCTest
 import GameKit // for deterministic random number generator
 
-let randomSource = GKLinearCongruentialRandomSource(seed: 1)
+let randomSource = GKLinearCongruentialRandomSource(seed: 2)
 
 let calcBundle = Bundle(identifier: "UTS.CalcTest")!
 let calcPath = calcBundle.path(forResource: "calc", ofType: nil)
@@ -47,15 +47,24 @@ class calcProcess {
 }
 
 class CalcTest: XCTestCase {
-    func testParseInteger() throws {
+    func testParseInteger() {
         let n1 = randomSource.nextInt(upperBound:100)
-        let task = calcProcess(n1)
-        XCTAssertEqual(task.output, String(n1), task.input)
+        let task1 = calcProcess(n1)
+        XCTAssertEqual(task1.output, String(n1), task1.input)
+        
+        let n2 = randomSource.nextInt(upperBound:100)
+        let task2 = calcProcess("+\(n2)")
+        XCTAssertEqual(task2.output, String(n2), task2.input)
+        
+        let n3 = -randomSource.nextInt(upperBound:100)
+        let task3 = calcProcess(n3)
+        XCTAssertEqual(task3.output, String(n3), task3.input)
 
-        let n2 = -randomSource.nextInt(upperBound:100)
-        let task2 = calcProcess(n2)
-        XCTAssertEqual(task2.output, String(n2), task.input)
-    }
+        // expect out-of-bounds parsing to emit an error
+        let largeNum = "\(Int.max)\(randomSource.nextInt(upperBound:90)+10)"
+        XCTAssertNotNil(calcProcess(largeNum).status, "\(largeNum)")
+        XCTAssertNotNil(calcProcess("-"+largeNum).status, "-\(largeNum)")
+}
 
     func testInvalidInput() {
         let task1 = calcProcess("x")
@@ -65,8 +74,11 @@ class CalcTest: XCTestCase {
         XCTAssertNotNil(task2.status, "exit with nonzero status on invalid input: \(task2.input)")
 
         let task3 = calcProcess("2", "+", "n")
-        XCTAssertNotNil(task1.status, "exit with nonzero status on invalid input: \(task3.input)")
-    }
+        XCTAssertNotNil(task3.status, "exit with nonzero status on invalid input: \(task3.input)")
+
+        let task4 = calcProcess("50%", "+", "25%")
+        XCTAssertNotNil(task4.status, "exit with nonzero status on invalid input: \(task4.input)")
+}
 
     func testAdd() throws {
         let n1 = randomSource.nextInt(upperBound:200)-100
@@ -173,36 +185,61 @@ class CalcTest: XCTestCase {
     }
     
     func testOutOfBounds() {
-        // test in-bounds operations with known signs to detect false errors
-        XCTAssertEqual(calcProcess(1, "-", 2).output, "-1")
-        XCTAssertEqual(calcProcess(-3, "-", 4).output, "-7")
-        XCTAssertEqual(calcProcess(5, "x", -6).output, "-30")
-
-        // test additive overflow
-        let n1 = randomSource.nextInt(upperBound:100) + 2
-        let task1 = calcProcess(Int.max-1, "+", n1)
-        XCTAssertNotNil(task1.status, "Error on integer overflow: \(task1.input)")
-
-        let n2 = randomSource.nextInt(upperBound:100) + 2
-        let task2 = calcProcess(Int.min+1, "-", n2)
-        XCTAssertNotNil(task2.status, "Error on integer underflow: \(task2.input)")
+        // verify that in-bounds operations do not produce errors
+        XCTAssertNil(calcProcess(1, "-", 2).status, "1 - 2")
+        XCTAssertNil(calcProcess(-3, "-", 4).status, "-3 - 4")
+        XCTAssertNil(calcProcess(5, "-", -6).status, "-3 - 4")
+        XCTAssertNil(calcProcess(5, "x", -6).status, "5 x 6")
         
-        // test multiplicative overflow
-        let task3 = calcProcess("999999999", "x", "99999999999")
-        XCTAssertNotNil(task3.status, "Error on integer overflow: \(task3.input)")
+        let support64bit = (calcProcess(Int.max).output == String(Int.max))
+        var min = Int.min
+        var max = Int.max
+        if (!support64bit) {
+            min = Int(Int32.min)
+            max = Int(Int32.max)
+        }
+        // test additive overflow
+        let n1 = max - randomSource.nextInt(upperBound:50)
+        let n2 = randomSource.nextInt(upperBound:100) + 60
+        let task1 = calcProcess(n1, "+", n2)
+        XCTAssertNotNil(task1.status, "Error on integer overflow: \(task1.input)")
+        let task2 = calcProcess(n1, "-", -n2)
+        XCTAssertNotNil(task2.status, "Error on integer overflow: \(task2.input)")
 
-        let task4 = calcProcess("999999999", "x", "-99999999999")
+        // test additive underflow
+        let n3 = min + randomSource.nextInt(upperBound:50)
+        let n4 = randomSource.nextInt(upperBound:100) + 60
+        let task3 = calcProcess(n3, "-", n4)
+        XCTAssertNotNil(task3.status, "Error on integer underflow: \(task3.input)")
+        let task4 = calcProcess(n3, "+", -n4)
         XCTAssertNotNil(task4.status, "Error on integer underflow: \(task4.input)")
+
+        // test multiplicative overflow
+        let n5 = Int(Int32.max) - randomSource.nextInt(upperBound:100)
+        let n6 = Int(Int32.max) - randomSource.nextInt(upperBound:100)
+        let n7 = Int(Int32.max) - randomSource.nextInt(upperBound:100)
+        let task5 = calcProcess(n5, "x", n6, "x", n7)
+        XCTAssertNotNil(task5.status, "Error on integer overflow: \(task5.input)")
+
+        let task6 = calcProcess(-n5, "x", n6, "x", n7)
+        XCTAssertNotNil(task6.status, "Error on integer underflow: \(task6.input)")
     }
 }
 
 class OptionalTests: XCTestCase {
+    
+    // These optional tests are not marked.
+    // They are meant to inspire you to think about how difficult
+    // it would be to modify your program to solve them.
+    // A well-designed program should be easy to modify.
+    
     func testHandleFloatingPointValues() throws {
         let task = calcProcess("0.5", "+", "0.5")
         XCTAssertEqual(task.output, "1.0", "handle floating-point values: \(task.input)")
     }
 
     func testHandleDecimalValues() throws {
+        // see http://0.30000000000000004.com/
         let task = calcProcess("0.1", "+", "0.2")
         XCTAssertEqual(task.output, "0.3", "handle decimal values: \(task.input)")
     }
