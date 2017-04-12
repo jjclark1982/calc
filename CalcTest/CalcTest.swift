@@ -27,7 +27,7 @@ class calcProcess {
         let arguments = args.map { (a:Any) -> String in
             String(describing:a)
         }
-        input = arguments.joined(separator: " ")
+        input = "calc " + arguments.joined(separator: " ")
         
         let task = Process()
         let stdout = Pipe()
@@ -61,9 +61,11 @@ class CalcTest: XCTestCase {
         XCTAssertEqual(task3.output, String(n3), task3.input)
 
         // expect out-of-bounds parsing to emit an error
-        let largeNum = "\(Int.max)\(randomSource.nextInt(upperBound:90)+10)"
-        XCTAssertNotNil(calcProcess(largeNum).status, "\(largeNum)")
-        XCTAssertNotNil(calcProcess("-"+largeNum).status, "-\(largeNum)")
+        var task: calcProcess
+        task = calcProcess("\(Int.max)\(randomSource.nextInt(upperBound:90)+10)")
+        XCTAssertNotNil(task.status, task.input)
+        task = calcProcess("-\(Int.max)\(randomSource.nextInt(upperBound:90)+10)")
+        XCTAssertNotNil(task.status, task.input)
 }
 
     func testInvalidInput() {
@@ -186,10 +188,17 @@ class CalcTest: XCTestCase {
     
     func testOutOfBounds() {
         // verify that in-bounds operations do not produce errors
-        XCTAssertNil(calcProcess(1, "-", 2).status, "1 - 2")
-        XCTAssertNil(calcProcess(-3, "-", 4).status, "-3 - 4")
-        XCTAssertNil(calcProcess(5, "-", -6).status, "-3 - 4")
-        XCTAssertNil(calcProcess(5, "x", -6).status, "5 x 6")
+        var task: calcProcess
+        task = calcProcess(1, "-", 2)
+        XCTAssertNil(task.status, task.input)
+        task = calcProcess(-3, "-", 4)
+        XCTAssertNil(task.status, task.input)
+        task = calcProcess(5, "-", -6)
+        XCTAssertNil(task.status, task.input)
+        task = calcProcess(7, "x", 8)
+        XCTAssertNil(task.status, task.input)
+        task = calcProcess(9, "x", -10)
+        XCTAssertNil(task.status, task.input)
         
         let support64bit = (calcProcess(Int.max).output == String(Int.max))
         var min = Int.min
