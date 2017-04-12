@@ -234,27 +234,3 @@ class CalcTest: XCTestCase {
         XCTAssertNotNil(task6.status, "Error on integer underflow: \(task6.input)")
     }
 }
-
-class OptionalTests: XCTestCase {
-    
-    // These optional tests are not marked.
-    // They are meant to inspire you to think about how difficult
-    // it would be to modify your program to solve them.
-    // A well-designed program should be easy to modify.
-    
-    func testHandleFloatingPointValues() throws {
-        let task = calcProcess("0.5", "+", "0.5")
-        XCTAssertEqual(task.output, "1.0", "handle floating-point values: \(task.input)")
-    }
-
-    func testHandleDecimalValues() throws {
-        // see http://0.30000000000000004.com/
-        let task = calcProcess("0.1", "+", "0.2")
-        XCTAssertEqual(task.output, "0.3", "handle decimal values: \(task.input)")
-    }
-
-    func testHandleRationalValues() throws {
-        let task = calcProcess("1", "/", "3", "+", "2", "/", "3")
-        XCTAssertEqual(task.output, "1", "handle rational values: \(task.input)")
-    }
-}
