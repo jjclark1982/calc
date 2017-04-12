@@ -66,7 +66,7 @@ class CalcTest: XCTestCase {
         XCTAssertNotNil(task.status, task.input)
         task = calcProcess("-\(Int.max)\(randomSource.nextInt(upperBound:90)+10)")
         XCTAssertNotNil(task.status, task.input)
-}
+    }
 
     func testInvalidInput() {
         let task1 = calcProcess("x")
@@ -80,34 +80,102 @@ class CalcTest: XCTestCase {
 
         let task4 = calcProcess("50%", "+", "25%")
         XCTAssertNotNil(task4.status, "exit with nonzero status on invalid input: \(task4.input)")
-}
+    }
 
     func testAdd() throws {
-        let n1 = randomSource.nextInt(upperBound:200)-100
-        let n2 = randomSource.nextInt(upperBound:200)-100
-        let task = calcProcess(n1, "+", n2)
+        var task: calcProcess
+        let n1 = randomSource.nextInt(upperBound:100)
+        let n2 = randomSource.nextInt(upperBound:100)
+        let n3 = randomSource.nextInt(upperBound:100)-100
+        let n4 = randomSource.nextInt(upperBound:100)-100
+        
+        task = calcProcess(n1, "+", n2)
         XCTAssertEqual(task.output, String(n1 + n2), task.input)
+
+        task = calcProcess(n1, "+", n3)
+        XCTAssertEqual(task.output, String(n1 + n3), task.input)
+        
+        task = calcProcess(n1, "+", n4)
+        XCTAssertEqual(task.output, String(n1 + n4), task.input)
+
+        task = calcProcess(n2, "+", n3)
+        XCTAssertEqual(task.output, String(n2 + n3), task.input)
+        
+        task = calcProcess(n3, "+", n4)
+        XCTAssertEqual(task.output, String(n3 + n4), task.input)
+
+        task = calcProcess(n4, "+", n1)
+        XCTAssertEqual(task.output, String(n4 + n1), task.input)
+
+        task = calcProcess(n1, "+", n2, "+", n3, "+", n4)
+        XCTAssertEqual(task.output, String(n1 + n2 + n3 + n4), task.input)
     }
     
     func testSubtract() throws {
+        var task: calcProcess
         let n1 = randomSource.nextInt(upperBound:100)
         let n2 = randomSource.nextInt(upperBound:100)
-        let task = calcProcess(n1, "-", n2)
+        let n3 = randomSource.nextInt(upperBound:100)-100
+        let n4 = randomSource.nextInt(upperBound:100)-100
+        
+        task = calcProcess(n1, "-", n2)
         XCTAssertEqual(task.output, String(n1 - n2), task.input)
+        
+        task = calcProcess(n1, "-", n3)
+        XCTAssertEqual(task.output, String(n1 - n3), task.input)
+        
+        task = calcProcess(n1, "-", n4)
+        XCTAssertEqual(task.output, String(n1 - n4), task.input)
+        
+        task = calcProcess(n2, "-", n3)
+        XCTAssertEqual(task.output, String(n2 - n3), task.input)
+        
+        task = calcProcess(n3, "-", n4)
+        XCTAssertEqual(task.output, String(n3 - n4), task.input)
+
+        task = calcProcess(n4, "-", n1)
+        XCTAssertEqual(task.output, String(n4 - n1), task.input)
+
+        task = calcProcess(n1, "-", n2, "-", n3, "-", n4)
+        XCTAssertEqual(task.output, String(n1 - n2 - n3 - n4), task.input)
     }
     
     func testMultiply() throws {
+        var task: calcProcess
         let n1 = randomSource.nextInt(upperBound:100)+1
         let n2 = randomSource.nextInt(upperBound:100)+1
-        let task = calcProcess(n1, "x", n2)
+        let n3 = randomSource.nextInt(upperBound:100)-101
+        
+        task = calcProcess(n1, "x", n2)
         XCTAssertEqual(task.output, String(n1 * n2), task.input)
+
+        task = calcProcess(n1, "x", n3)
+        XCTAssertEqual(task.output, String(n1 * n3), task.input)
+
+        task = calcProcess(n3, "x", n2)
+        XCTAssertEqual(task.output, String(n3 * n2), task.input)
+
+        task = calcProcess(n1, "x", n2, "x", n3)
+        XCTAssertEqual(task.output, String(n1 * n2 * n3), task.input)
     }
     
     func testDivide() throws {
-        let n1 = randomSource.nextInt(upperBound:100) + 20
-        let n2 = randomSource.nextInt(upperBound:20) + 1
-        let task = calcProcess(n1, "/", n2)
+        var task: calcProcess
+        let n1 = randomSource.nextInt(upperBound:4096) + 300
+        let n2 = randomSource.nextInt(upperBound:256) + 20
+        let n3 = randomSource.nextInt(upperBound:16) + 1
+
+        task = calcProcess(n1, "/", n2)
         XCTAssertEqual(task.output, String(n1 / n2), task.input)
+        
+        task = calcProcess(n2, "/", n3)
+        XCTAssertEqual(task.output, String(n2 / n3), task.input)
+        
+        task = calcProcess(n1, "/", -n3)
+        XCTAssertEqual(task.output, String(n1 / -n3), task.input)
+        
+        task = calcProcess(n1, "/", n2, "/", n3)
+        XCTAssertEqual(task.output, String(n1 / n2 / n3), task.input)
     }
     
     func testModulus() throws {
@@ -169,11 +237,15 @@ class CalcTest: XCTestCase {
 
     func testPrecedence1() throws {
         // verify that multiplication is evaluated before addition
-        let n1 = randomSource.nextInt(upperBound:20) + 1
-        let n2 = randomSource.nextInt(upperBound:20) + 1
+        let n1 = randomSource.nextInt(upperBound:100) + 1
+        let n2 = randomSource.nextInt(upperBound:100) + 1
         let n3 = randomSource.nextInt(upperBound:100) + 1
+        
         let task1 = calcProcess(n1, "x", n2, "+", n3)
         XCTAssertEqual(task1.output, String(n1 * n2 + n3), task1.input)
+
+        let task2 = calcProcess(n1, "+", n2, "x", n3)
+        XCTAssertEqual(task2.output, String(n1 + n2 * n3), task2.input)
     }
 
     func testPrecedence2() throws {
@@ -187,19 +259,6 @@ class CalcTest: XCTestCase {
     }
     
     func testOutOfBounds() {
-        // verify that in-bounds operations do not produce errors
-        var task: calcProcess
-        task = calcProcess(1, "-", 2)
-        XCTAssertNil(task.status, task.input)
-        task = calcProcess(-3, "-", 4)
-        XCTAssertNil(task.status, task.input)
-        task = calcProcess(5, "-", -6)
-        XCTAssertNil(task.status, task.input)
-        task = calcProcess(7, "x", 8)
-        XCTAssertNil(task.status, task.input)
-        task = calcProcess(9, "x", -10)
-        XCTAssertNil(task.status, task.input)
-        
         let support64bit = (calcProcess(Int.max).output == String(Int.max))
         var min = Int.min
         var max = Int.max
