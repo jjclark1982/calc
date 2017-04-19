@@ -158,6 +158,9 @@ class CalcTest: XCTestCase {
         
         task = calcProcess(n1, "x", n2, "x", n3)
         XCTAssertEqual(task.output, String(n1 * n2 * n3), task.input)
+        
+        task = calcProcess(0, "x", n1)
+        XCTAssertEqual(task.output, String(0), task.input)
     }
     
     func testDivide() throws {
@@ -177,6 +180,9 @@ class CalcTest: XCTestCase {
         
         task = calcProcess(n1, "/", n2, "/", n3)
         XCTAssertEqual(task.output, String(n1 / n2 / n3), task.input)
+        
+        task = calcProcess(0, "/", n1)
+        XCTAssertEqual(task.output, String(0), task.input)
     }
     
     func testModulus() throws {
@@ -184,6 +190,9 @@ class CalcTest: XCTestCase {
         let n2 = randomSource.nextInt(upperBound:20) + 1
         let task = calcProcess(n1, "%", n2)
         XCTAssertEqual(task.output, String(n1 % n2), task.input)
+        
+        let task2 = calcProcess(0, "%", n1)
+        XCTAssertEqual(task2.output, String(0), task2.input)
     }
     
     func testDivideByZero() {
