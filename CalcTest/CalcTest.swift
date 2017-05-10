@@ -9,7 +9,7 @@
 import XCTest
 import GameKit // for deterministic random number generator
 
-let randomSource = GKLinearCongruentialRandomSource(seed: 5)
+let randomSource = GKLinearCongruentialRandomSource(seed: 6)
 
 let calcBundle = Bundle(identifier: "UTS.CalcTest")!
 let calcPath = ProcessInfo.processInfo.environment["CALC_PATH"] ?? calcBundle.path(forResource: "calc", ofType: nil)
@@ -79,6 +79,9 @@ class CalcTest: XCTestCase {
         let n3 = -randomSource.nextInt(upperBound:100)
         let task3 = calcProcess(n3)
         XCTAssertEqual(task3.output, String(n3), task3.input)
+        
+        let task4 = calcProcess(0)
+        XCTAssertEqual(task4.output, String(0), task4.input)
     }
     
     func testInvalidInput() {
@@ -194,9 +197,6 @@ class CalcTest: XCTestCase {
         
         task = calcProcess(n1, "x", n2, "x", n3)
         XCTAssertEqual(task.output, String(n1 * n2 * n3), task.input)
-        
-        task = calcProcess(0, "x", n1)
-        XCTAssertEqual(task.output, String(0), task.input)
     }
     
     func testDivide() {
@@ -216,9 +216,6 @@ class CalcTest: XCTestCase {
         
         task = calcProcess(n1, "/", n2, "/", n3)
         XCTAssertEqual(task.output, String(n1 / n2 / n3), task.input)
-        
-        task = calcProcess(0, "/", n1)
-        XCTAssertEqual(task.output, String(0), task.input)
     }
     
     func testModulus() {
@@ -226,12 +223,13 @@ class CalcTest: XCTestCase {
         let n2 = randomSource.nextInt(upperBound:20) + 1
         let task = calcProcess(n1, "%", n2)
         XCTAssertEqual(task.output, String(n1 % n2), task.input)
-        
-        let task2 = calcProcess(0, "%", n1)
-        XCTAssertEqual(task2.output, String(0), task2.input)
     }
     
     func testDivideByZero() {
+        let task0 = calcProcess(0, "/", 1)
+        XCTAssertEqual(task0.output, String(0), task0.input)
+        XCTAssertNil(task0.status, "exit with zero status: \(task0.input)")
+        
         let n1 = randomSource.nextInt(upperBound:100) + 1
         let task1 = calcProcess(n1, "/", 0)
         XCTAssertNotNil(task1.status, "exit with nonzero status when dividing by zero: \(task1.input)")
