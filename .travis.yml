@@ -1,5 +1,8 @@
 os: osx
 osx_image: xcode9.2
+language: swift
+xcode_project: calc.xcodeproj
+xcode_scheme: CalcTest
 install: true
 script:
   - xcodebuild clean test -project calc.xcodeproj -scheme CalcTest
