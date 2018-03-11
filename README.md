@@ -1,16 +1,13 @@
-University of Technology Sydney  
-Faculty of Engineering and Information Technology  
-School of Software
+<img src="docs/UTS-Logo.png" alt="University of Technology Sydney" style="width: 30%; float: left; padding: 0 1em 1em 0;"/><p>Faculty of Engineering and Information Technology<br/>School of Software</p>
 
-41889 - Application Development in the iOS Environment  
-42889 - iOS Application Development  
-Autumn 2017
+<p style="clear:left">41889 - Application Development in the iOS Environment<br/>42889 - iOS Application Development<br/>Autumn 2018</p>
+
 
 # Assessment Task 1
 
 Individual programming project: Command-line calculator
 
-Due 20th April 2017 at 2 pm  
+Due 3rd April 2018 at 11:59 pm  
 
 This project is worth 25% of the overall mark for this subject.
 
@@ -21,22 +18,22 @@ The purpose of this project is to demonstrate competence in the following skills
 - [ ] Program design
 - [ ] Array and string manipulation
 - [ ] Command line arguments
-- [ ] Creating methods and classes in Objective-C
+- [ ] Creating classes and methods in Swift
 - [ ] Exception handling
-- [ ] Program testing
+- [ ] Automated testing
 
 These tasks reflect all the subject objectives.
 
-The reference implementation takes about 200 lines of code, including white space (blank lines) comments, etc. As part of your subject workload assessment, it is estimated this project will take 22.5 hours to complete.
+The reference implementation takes about 200 lines of code. As part of your subject workload assessment, it is estimated this project will take 22.5 hours to complete.
 
 ## Instructions
 
-1. Download the project template from [https://github.com/jjclark1982/calc](https://github.com/jjclark1982/calc) using the "Clone or Download" button.
-
-2. Implement the specified functionality in the `calc` target.
-
-3. Use "Product > Test" to test your functionality.
-
+1. Create a GitHub account and apply for the Student Developer Pack
+   https://help.github.com/articles/applying-for-a-student-developer-pack/
+   This allows you to create private repositories for free while you are a student.
+2. Fork the project template from [https://github.com/jjclark1982/calc](https://github.com/jjclark1982/calc) into a private repository.
+3. Implement the specified functionality in the `calc` target.
+4. Use "Product > Test" to test your functionality.
 4. Upload your submission to [UTS Online](https://online.uts.edu.au/). Compress your Xcode project into a zip file and upload the file to "Assessment Task 1 submission." Please delete the "Build", "DerivedData", and "reference" folders for a smaller zip file size. You may submit as many times as you like until the final due date. The final submission you make is the one that will be marked.
 
 ### Specification
@@ -123,7 +120,10 @@ Please note that it prints results to standard output and additional messages to
 The Xcode project must unzip successfully and compile without errors.
 
 - Deduct 3 marks if there are **any** compiler warnings.
+
 - Deduct 1 mark for **each** failing test in the `CalcTest` suite.
+
+  ​
 
 #### Style: 3 marks
 
