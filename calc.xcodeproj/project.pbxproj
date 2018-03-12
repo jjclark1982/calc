@@ -38,7 +38,6 @@
 /* Begin PBXFileReference section */
 		050330711E767CEF005AB44A /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		054418EA2055EED5008C821B /* calc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = calc; sourceTree = BUILT_PRODUCTS_DIR; };
-		054418EC2055EED5008C821B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		054418F52055EFEB008C821B /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		05C4D95C1E76182500AB9F52 /* CalcTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalcTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		05C4D95E1E76182500AB9F52 /* CalcTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcTest.swift; sourceTree = "<group>"; };
@@ -73,14 +72,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		054418EB2055EED5008C821B /* calc */ = {
-			isa = PBXGroup;
-			children = (
-				054418EC2055EED5008C821B /* main.swift */,
-			);
-			path = calc;
-			sourceTree = "<group>";
-		};
 		054418F42055EFEB008C821B /* calc */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,7 +85,6 @@
 			children = (
 				054418F42055EFEB008C821B /* calc */,
 				05C4D95D1E76182500AB9F52 /* CalcTest */,
-				054418EB2055EED5008C821B /* calc */,
 				05C4D94F1E7616DF00AB9F52 /* Products */,
 				050330701E767CEF005AB44A /* Frameworks */,
 			);
@@ -247,8 +237,9 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
+				CODE_SIGNING_REQUIRED = NO;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -271,8 +262,9 @@
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
+				CODE_SIGNING_REQUIRED = NO;
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -309,6 +301,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -362,6 +355,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -385,7 +379,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
+				CODE_SIGNING_REQUIRED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CalcTest/Info.plist;
@@ -405,7 +401,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Manual;
+				CODE_SIGNING_REQUIRED = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = CalcTest/Info.plist;

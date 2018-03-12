@@ -5,4 +5,4 @@ xcode_project: calc.xcodeproj
 xcode_scheme: CalcTest
 install: true
 script:
-  - xcodebuild clean test -project calc.xcodeproj -scheme CalcTest
+  - xcodebuild clean test -project calc.xcodeproj -scheme CalcTest CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
