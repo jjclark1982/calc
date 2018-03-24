@@ -17,5 +17,5 @@
 7. Select "Authorize travis-pro"
     ![Auth](travis_auth.PNG)
 8. On Travis, go to your [profile](https://travis-ci.com/profile) page and enable this project
-   ![ravis-enable-rep](travis-enable-repo.png)
+   ![ravis-enable-rep](travis_on.PNG)
 9. Now when you upload code to this repo, you can see the project compile and test on Travis.
