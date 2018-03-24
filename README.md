@@ -2,7 +2,7 @@
 
 <p style="clear:left">41889 - Application Development in the iOS Environment<br/>42889 - iOS Application Development<br/>Autumn 2018</p>
 
-https://travis-ci.org/uts-ios-dev/calc.svg?branch=master
+![build status](https://travis-ci.org/uts-ios-dev/calc.svg?branch=master)
 
 # Assessment Task 1
 
