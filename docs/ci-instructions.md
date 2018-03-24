@@ -10,7 +10,7 @@
    https://classroom.github.com/a/GNY3Dzvv
 4. Select your Student ID (TODO: insert screenshot)
 5. Clone the calc project (TODO: insert screenshot)
-6. Go to http://travis-ci.com/ and select "Sign in with GitHub" (note that travis-ci**.com** is for private repositories, and travis-ci**.org** is for public repositories)
+6. Go to http://travis-ci.com/ and select "Sign in with GitHub" (note that travis-ci **.com** is for private repositories, and travis-ci **.org** is for public repositories)
 7. Select "Authorize travis-pro"
 8. On Travis, go to your [profile](https://travis-ci.com/profile) page and enable this project
    ![ravis-enable-rep](/Users/jjclark/Desktop/calc/docs/travis-enable-repo.png)
