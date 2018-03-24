@@ -13,7 +13,9 @@
 5. Accept the calc project
     ![Accept](accept_assignment.PNG)
 6. Go to http://travis-ci.com/ and select "Sign in with GitHub" (note that travis-ci **.com** is for private repositories, and travis-ci **.org** is for public repositories)
+    ![Signin](travis_signin.PNG)
 7. Select "Authorize travis-pro"
+    ![Auth](travis_auth.PNG)
 8. On Travis, go to your [profile](https://travis-ci.com/profile) page and enable this project
    ![ravis-enable-rep](travis-enable-repo.png)
 9. Now when you upload code to this repo, you can see the project compile and test on Travis.
